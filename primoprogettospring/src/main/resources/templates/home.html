@@ -1,0 +1,60 @@
+<!-- Vista della homepage -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+<body>
+    <h1>Welcome to homepage</h1>
+
+    <button onclick="getAllStudenti()">Cliccami per visualizzare tutti gli studenti!</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Genere</th>
+                <th>Indirizzo</th>
+                <th>Citta'</th>
+                <th>Provincia</th>
+                <th>Regione</th>
+                <th>Email</th>
+                <th>Data di nascita</th>
+            </tr>
+        </thead>
+        <tbody id="listaStudenti"></tbody>
+    </table>
+
+    <script>
+        //funzione per chiamare l'end point di StudenteController
+        //per visualizzare tutti gli studenti
+        function getAllStudenti() {
+            fetch('/api/studente/studenti')
+            .then(response => response.json())
+            .then(dati => {
+                const listaStudenti = document.getElementById('listaStudenti');
+                listaStudenti.innerHTML = '';
+
+                dati.forEach(studenti => {
+                    const righe = document.createElement('tr');
+                    righe.innerHTML = `
+                        <td>${studenti.nomeStudente}</td>
+                        <td>${studenti.cognome}</td>
+                        <td>${studenti.genere}</td>
+                        <td>${studenti.indirizzo}</td>
+                        <td>${studenti.citta}</td>
+                        <td>${studenti.provicia}</td>
+                        <td>${studenti.regione}</td>
+                        <td>${studenti.email}</td>
+                        <td>${studenti.dataDiNascita}</td>
+                        `;
+                    listaStudenti.appendChild(righe);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
